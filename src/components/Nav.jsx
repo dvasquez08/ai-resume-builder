@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Logo from "../assets/logo-white-transparent.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,6 +9,8 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 
 const Nav = () => {
+  const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
+
   return (
     <>
       <nav className="rounded-lg shadow m-4 border-gray-200 bg-sky-900 sticky top-0">
@@ -68,7 +70,58 @@ const Nav = () => {
             </a>
           </div>
           {/* Mobile Menu Toggle Icon */}
+          <button
+            type="button"
+            className="md:hidden text-gray-400 hover:bg-gray-700 p-2 rounded"
+            onClick={() => setMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            <svg
+              className="w-6 h-6"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
+              <path d="M4 6H16M4 12h16M4 18h16"></path>
+            </svg>
+          </button>
         </div>
+        {/* Mobile Menu */}
+        {isMobileMenuOpen && (
+          <div className="absolute top-16 left-0 w-full bg-sky-800 shadow-lg md:hidden">
+            <ul className="flex flex-col items-center space-y-4 p-4">
+              <li>
+                <Link
+                  to="/"
+                  className="text-white hover:text-blue-300"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/Docs"
+                  className="text-white hover:text-blue-300"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Docs
+                </Link>
+              </li>
+              <li>
+                <button
+                  className="text-white hover:text-blue-300"
+                  onClick={() => {
+                    // Add contact form state here
+                    setMobileMenuOpen(false);
+                  }}
+                >
+                  Contact
+                </button>
+              </li>
+            </ul>
+          </div>
+        )}
       </nav>
     </>
   );
