@@ -5,8 +5,9 @@ import Logo from "../assets/logo-white-transparent.png";
 const Nav = () => {
   return (
     <>
-      <Nav className="rounded-lg shadow m-4 border-gray-200 bg-sky-900 sticky top-0">
+      <Nav className="shadow m-4 border-gray-200 bg-sky-900 sticky top-0">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+          /* Menu Logo Sections*/
           <Link
             to="/"
             className="flex items-center space-x-3 rtl:space-x-reverse"
@@ -16,6 +17,12 @@ const Nav = () => {
               AI Resume Builder
             </span>
           </Link>
+          /* Desktop Menu */
+          <ul>
+            <li></li>
+            <li></li>
+            <li></li>
+          </ul>
         </div>
       </Nav>
     </>
