@@ -10,6 +10,6 @@ Right now, getting the chatbot to build the resume is the first function.
 
 The next goal will be to have the app also generate cover letters for the end user
 
-## Expanding the ESLint configuration
+## Current State
 
 The app development is currently in progress. Stay tuned for updates!
