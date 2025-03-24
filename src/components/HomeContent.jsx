@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import StepCards from "./StepCards";
+import Chatbot from "./Chatbot";
 
 function HomeContent() {
   return (
@@ -29,6 +30,7 @@ function HomeContent() {
         </button>
       </div>
       <StepCards />
+      <Chatbot />
     </>
   );
 }
