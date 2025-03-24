@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Contact from "./Contact";
 import { Link } from "react-router-dom";
 import Logo from "../assets/logo-white-transparent.png";
@@ -34,8 +34,10 @@ function Nav() {
                 Home
               </Link>
             </li>
-            <li to="/Docs" className="text-white hover:text-blue-400">
-              Docs
+            <li>
+              <Link to="/Docs" className="text-white hover:text-blue-400">
+                Docs
+              </Link>
             </li>
             <li>
               <button
@@ -49,7 +51,7 @@ function Nav() {
           {/* Social Media Icons */}
           <div className="flex items-center space-x-3">
             <a
-              href=""
+              href="https://www.linkedin.com/in/david-vasquez-yeg/"
               target="_blank"
               rel="noopener noreferrer"
               className="text-white hover:text-blue-400 text-xl"
@@ -57,7 +59,7 @@ function Nav() {
               <FontAwesomeIcon icon={faLinkedin} />
             </a>
             <a
-              href=""
+              href="https://medium.com/@dvasquez.422"
               target="_blank"
               rel="noopener noreferrer"
               className="text-white hover:text-blue-400 text-xl"
@@ -65,7 +67,7 @@ function Nav() {
               <FontAwesomeIcon icon={faMedium} />
             </a>
             <a
-              href=""
+              href="https://github.com/dvasquez08/"
               target="_blank"
               rel="noopener noreferrer"
               className="text-white hover:text-blue-400 text-xl"
