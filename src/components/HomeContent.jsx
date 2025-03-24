@@ -29,6 +29,22 @@ function HomeContent() {
           Try the App!
         </button>
       </div>
+      {/* Information Section*/}
+      <div>
+        <h1 className="text-black mt-24 font-sans font-light text-2xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-7xl text-center">
+          Explore AI-Powered Resume Building
+        </h1>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-6 my-10">
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      </div>
+      {/* Chatbot Section */}
+      <h1 className="text-black my-8 font-sans font-light text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-4xl text-center px-6">
+        Whether you're curious about AI and it's capabilities, or you need help
+        building your resume, give the app a try below.
+      </h1>
       <StepCards />
       <Chatbot />
     </>

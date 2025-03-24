@@ -27,3 +27,35 @@
   .textarea-custom::-webkit-scrollbar-track {
     background: #1a1a1a; /* Even Darker Grey */
   }
+
+  /* Custom Scrollbar for the entire webpage */
+::-webkit-scrollbar {
+    width: 10px; /* Adjust width */
+}
+
+/* Handle (thumb) */
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #38bdf8, #1e40af); /* Sky-400 to Blue-800 */
+    border-radius: 10px;
+    transition: background 0.3s ease;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #1e40af, #1e293b); /* Darker effect */
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #1a1a1a; /* Darker background */
+}
+
+/* Track when scrollbar is actively being scrolled */
+::-webkit-scrollbar-track-piece {
+    background: #1e293b; /* Slight contrast */
+}
+
+/* Corner (where vertical & horizontal scrollbar meet) */
+::-webkit-scrollbar-corner {
+    background: #111827; /* Darker */
+}

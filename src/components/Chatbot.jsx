@@ -114,7 +114,7 @@ function Chatbot() {
       {!isFinalized && (
         <div className="relative flex gap-2 mt-4">
           <textarea
-            className="flex-1 p-3 pr-10 border rounded bg-gray-900 text-white"
+            className="flex-1 p-3 pr-10 border rounded bg-gray-900 text-white z-0"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter"}

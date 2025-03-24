@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Contact from "./Contact";
 import { Link } from "react-router-dom";
 import Logo from "../assets/logo-white-transparent.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -10,10 +11,11 @@ import {
 
 function Nav() {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isContactFormOpen, setContactFormOpen] = useState(false);
 
   return (
     <>
-      <nav className="rounded-lg shadow m-4 border-gray-200 bg-sky-900 sticky top-0">
+      <nav className="rounded-lg shadow m-4 border-gray-200 bg-sky-900 sticky top-0 z-50">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           {/* Menu Logo Section */}
           <Link
@@ -35,9 +37,11 @@ function Nav() {
             <li to="/Docs" className="text-white hover:text-blue-400">
               Docs
             </li>
-            {/* Come back to finish the contact component later */}
             <li>
-              <button className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
+              <button
+                onClick={() => setContactFormOpen(true)}
+                className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+              >
                 Contact
               </button>
             </li>
@@ -112,7 +116,7 @@ function Nav() {
                 <button
                   className="text-white hover:text-blue-300"
                   onClick={() => {
-                    // Add contact form state here
+                    setContactFormOpen(true);
                     setMobileMenuOpen(false);
                   }}
                 >
@@ -123,6 +127,10 @@ function Nav() {
           </div>
         )}
       </nav>
+      <Contact
+        isOpen={isContactFormOpen}
+        onClose={() => setContactFormOpen(false)}
+      />
     </>
   );
 }
