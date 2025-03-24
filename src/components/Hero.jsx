@@ -3,7 +3,7 @@ import LogoBlue from "../assets/logo-blue.png";
 import LogoBlack from "../assets/logo-black-transparent.png";
 import { motion } from "framer-motion";
 
-const Hero = () => {
+function Hero() {
   return (
     <div>
       <motion.div
@@ -25,6 +25,6 @@ const Hero = () => {
       </motion.div>
     </div>
   );
-};
+}
 
 export default Hero;

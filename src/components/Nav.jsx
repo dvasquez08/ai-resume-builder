@@ -8,7 +8,7 @@ import {
   faMedium,
 } from "@fortawesome/free-brands-svg-icons";
 
-const Nav = () => {
+function Nav() {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
@@ -125,6 +125,6 @@ const Nav = () => {
       </nav>
     </>
   );
-};
+}
 
 export default Nav;

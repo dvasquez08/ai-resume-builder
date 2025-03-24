@@ -4,7 +4,7 @@ import Footer from "../components/Footer";
 import Hero from "../components/Hero";
 import HomeContent from "../components/HomeContent";
 
-const HomePage = () => {
+function HomePage() {
   return (
     <div>
       <Nav />
@@ -13,6 +13,6 @@ const HomePage = () => {
       <Footer />
     </div>
   );
-};
+}
 
 export default HomePage;

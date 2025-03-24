@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 
-const StepCards = () => {
+function StepCards() {
   const steps = [
     { id: 1, title: "Step 1", text: "Start off with your information" },
     { id: 2, title: "Step 2", text: "Talk about your skills and experience" },
@@ -26,6 +26,6 @@ const StepCards = () => {
       ))}
     </div>
   );
-};
+}
 
 export default StepCards;

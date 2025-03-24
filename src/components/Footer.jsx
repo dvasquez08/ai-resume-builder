@@ -1,6 +1,6 @@
 import React from "react";
 
-const Footer = () => {
+function Footer() {
   return (
     <>
       <footer className="rounded-lg shadow m-4 bg-sky-900">
@@ -20,6 +20,6 @@ const Footer = () => {
       </footer>
     </>
   );
-};
+}
 
 export default Footer;

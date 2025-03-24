@@ -2,7 +2,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import StepCards from "./StepCards";
 
-const HomeContent = () => {
+function HomeContent() {
   return (
     <>
       {/* Intro Section */}
@@ -31,6 +31,6 @@ const HomeContent = () => {
       <StepCards />
     </>
   );
-};
+}
 
 export default HomeContent;
