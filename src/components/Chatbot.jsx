@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
+import jsPDF from "jspdf";
+import Groq from "groq-sdk";
 
 function Chatbot() {
   const [messages, setMessages] = useState(() => {
@@ -12,11 +14,16 @@ function Chatbot() {
       ]
     );
   });
+  const [resumeData, setResumeData] = useState(
+    () => JSON.parse(localStorage.getItem("resumeData")) || {}
+  );
   const [input, setInput] = useState("");
   const chatWindowRef = useRef(null);
   const [finalResume, setFinalResume] = useState(null);
   const [isFinalized, setIsFinalized] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [groqKey, setGroqKey] = useState(null);
+  const [groqClient, setGroqClient] = useState(null);
 
   const questions = [
     { key: "name", question: "What is your full name?" },
@@ -36,20 +43,62 @@ function Chatbot() {
     },
   ];
 
+  useEffect(() => {
+    const fetchApiKeys = async () => {
+      try {
+        const response = await fetch(
+          "https://us-central1-ai-resume-4ef19.cloudfunctions.net/getApiKeys"
+        );
+        const data = await response.json();
+        if (data?.GROQ_API_KEY) {
+          setGroqKey(data.GROQ_API_KEY);
+        } else {
+          console.error("Invalid API key data:", data);
+        }
+      } catch (error) {
+        console.error("Error fetching API keys:", error);
+      }
+    };
+
+    fetchApiKeys();
+  }, []);
+
+  useEffect(() => {
+    if (groqKey) {
+      setGroqClient(
+        new Groq({ apiKey: groqKey, dangerouslyAllowBrowser: true })
+      );
+    }
+  }, [groqKey]);
+
+  const resetChat = () => {
+    if (window.confirm("Are you sure you want to start over?")) {
+      setTimeout(() => {
+        localStorage.clear();
+        setMessages([
+          {
+            text: "Hi! Let's build your resume. What's your full name?",
+            sender: "bot",
+          },
+        ]);
+        setResumeData({});
+        setFinalResume(null);
+        setIsFinalized(false);
+      }, 500);
+    }
+  };
+
   const sendMessage = async () => {
     if (!input.trim()) return;
 
-    const currentQuestion = question.find((q) => !resumeData[q.key]);
+    const currentQuestion = questions.find((q) => !resumeData[q.key]);
     const userMessage = { text: input, sender: "user" };
     let updatedData = { ...resumeData };
 
     if (currentQuestion) {
       updatedData[currentQuestion.key] = input;
       setResumeData(updatedData);
-      localStorage.setItem(
-        "resumeData",
-        MediaKeySession.stringigy(updatedData)
-      );
+      localStorage.setItem("resumeData", JSON.stringify(updatedData));
     }
     const nextQuestion = questions.find((q) => !updatedData[q.key]);
 
@@ -63,9 +112,154 @@ function Chatbot() {
     ]);
     setInput("");
 
-    // if (!nextQuestion) {
-    //   await finalizeResume(updatedData);
-    // }
+    if (!nextQuestion) {
+      await finalizeResume(updatedData);
+    }
+  };
+
+  const finalizeResume = async (data) => {
+    if (!groqClient) {
+      console.error("Groq client is not initialized");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const cleanData = JSON.parse(JSON.stringify(data));
+
+      const response = await groqClient.chat.completions.create({
+        model: "llama3-70b-8192",
+        messages: [
+          {
+            role: "system",
+            content: `You are an AI resume formatter. Given the user's information, return ONLY a structured, professional resume.`,
+          },
+          {
+            role: "user",
+            content: `Here is the user's information: ${JSON.stringify(
+              cleanData,
+              null,
+              2
+            )}. Format this into a professional resume.`,
+          },
+        ],
+        temperature: 0.7,
+      });
+
+      if (!response?.choices?.length)
+        throw new Error("Invalid response from AI");
+
+      setFinalResume(response.choices[0].message.content);
+      setIsFinalized(true);
+    } catch (error) {
+      console.error("Error generating resume:", error);
+    }
+    setLoading(false);
+  };
+
+  const copyToClipboard = () => {
+    if (!finalResume) return;
+
+    let cleanedResume = finalResume.replace(
+      /\*\*.*?\*\*\n\*\*Contact Information:\*\*\n*/,
+      ""
+    ); // Remove redundant name & heading
+
+    cleanedResume = cleanedResume.replace(/\[(.*?)\]\((.*?)\)/g, "$1"); // Fix email formatting
+
+    navigator.clipboard
+      .writeText(cleanedResume)
+      .then(() => alert("Resume copied to clipboard!"));
+  };
+
+  const downloadPDF = () => {
+    if (!finalResume || !resumeData) return;
+
+    const userName = resumeData.name || "Resume";
+
+    const pdf = new jsPDF();
+    pdf.setFont("helvetica", "bold");
+    pdf.setFontSize(16);
+    pdf.text(userName, 105, 10, { align: "center" });
+
+    pdf.setFontSize(12);
+    pdf.setFont("helvetica", "normal");
+
+    let y = 20;
+    let contactInfo = "";
+
+    let cleanedResume = finalResume
+      .replace(/\*\*.*?\*\*\n\*\*Contact Information:\*\*\n*/, "") // Remove redundant name & heading
+      .replace(/\*\*(.*?)\*\*/g, "$1") // Remove bold markdown
+      .replace(/\[(.*?)\]\((.*?)\)/g, "$1") // Fix email formatting
+      .replace(/^\*\s+/gm, "") // Remove leading "* "
+      .replace(/^\+\s+/gm, ""); // Remove leading "+ "
+
+    // **Split Resume Content & Notes**
+    const [resumeContent, notes] = cleanedResume.split(
+      "I hope this meets your requirements!",
+      2
+    );
+
+    const lines = resumeContent.split("\n").filter((line, index) => {
+      if (index !== 0 && line.trim() === userName) return false;
+      if (
+        line.startsWith("Address:") ||
+        line.startsWith("Phone:") ||
+        line.startsWith("Email:")
+      ) {
+        contactInfo += line + "\n";
+        return false;
+      }
+      return true;
+    });
+
+    // **Fix: Centered Contact Info**
+    const contactLines = contactInfo.trim().split("\n");
+    contactLines.forEach((line) => {
+      pdf.text(line, 105, y, { align: "center" });
+      y += 7;
+    });
+
+    y += 10; // Move down after contact info
+
+    // **Write Resume Content First**
+    lines.forEach((line) => {
+      if (y > 280) {
+        pdf.addPage(); // Start a new page if content exceeds page height
+        y = 20;
+      }
+      pdf.text(line, 10, y);
+      y += 7;
+    });
+
+    // **Write Notes on a New Page**
+    if (notes && notes.trim()) {
+      pdf.addPage();
+      y = 20;
+      pdf.setFont("helvetica", "italic");
+      pdf.setTextColor(100);
+
+      pdf.text("Notes from the bot:", 10, y);
+      y += 10;
+
+      notes
+        .trim()
+        .split("\n")
+        .forEach((line) => {
+          if (y > 280) {
+            pdf.addPage();
+            y = 20;
+          }
+          pdf.text(line, 10, y);
+          y += 7;
+        });
+
+      pdf.setFont("helvetica", "normal");
+      pdf.setTextColor(0);
+    }
+
+    pdf.save(`${userName}_Resume.pdf`);
   };
 
   useEffect(() => {
@@ -78,7 +272,7 @@ function Chatbot() {
   }, [messages]);
 
   return (
-    <div className="w-11/12 max-3-3-xl mx-auto mt-10 mb-10 p-6 border rounded shadow-[0_0_20px_#38bdf8] bg-gray-800 text-white">
+    <div className="w-11/12 max-w-3xl mx-auto mt-10 mb-10 p-6 border rounded shadow-[0_0_20px_#38bdf8] bg-gray-800 text-white">
       <div
         className="h-96 overflow-y-auto p-4 border-b border-white chat-window rounded-lg bg-gray-900 shadow-md"
         ref={chatWindowRef}
@@ -117,11 +311,11 @@ function Chatbot() {
             className="flex-1 p-3 pr-10 border rounded bg-gray-900 text-white z-0"
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter"}
+            onKeyDown={(e) => e.key === "Enter" && sendMessage()}
             placeholder="Type your response..."
           />
           <button
-            onClick={""}
+            onClick={sendMessage}
             className="bg-gray-700 text-white p-2 rounded-full hover:bg-blue-900 transition shadow-md"
           >
             &#8593;
@@ -132,22 +326,20 @@ function Chatbot() {
       {isFinalized && (
         <div className="pt-2 md:flex justify-evenly">
           <button
-            onClick={""}
+            onClick={copyToClipboard}
             className="px-4 py-2 bg-green-600 text-white hover:bg-green-500 transition rounded"
           >
             Copy to Cllipboard
           </button>
           <button
-            onClick={""}
+            onClick={downloadPDF}
             className="px-4 py-2 bg-red-600 text-white hover:bg-red-500 transition rounded"
           >
             Download to PDF
           </button>
           <button
-            onClick={
-              "px-4 py-2 bg-gray-500 text-white hover:bg-gray-400 transition rounded mt-2"
-            }
-            className=""
+            onClick={resetChat}
+            className="px-4 py-2 bg-gray-500 text-white hover:bg-gray-400 transition rounded mt-2"
           >
             Reset Chat
           </button>

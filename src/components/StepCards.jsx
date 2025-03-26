@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 function StepCards() {
   const steps = [
     { id: 1, title: "Step 1", text: "Start off with your information" },
-    { id: 2, title: "Step 2", text: "Talk about your skills and experience" },
+    { id: 2, title: "Step 2", text: "Add your skills and experience" },
     { id: 3, title: "Step 3", text: "Customize and refine with ease" },
     { id: 4, title: "Step 4", text: "Copy/Download and apply!" },
   ];

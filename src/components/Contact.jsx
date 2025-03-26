@@ -1,8 +1,68 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import emailjs from "@emailjs/browser";
+import ReCAPTCHA from "react-google-recaptcha";
 
 function Contact({ isOpen, onClose }) {
-  // const [name, setName] = useState("");
-  // const [message, setMessage] = useState("");
+  const [name, setName] = useState("");
+  const [message, setMessage] = useState("");
+  const [recaptchaValue, setRecaptchaValue] = useState(null);
+  const [apiKeys, setApiKeys] = useState(null);
+  const [loadingKeys, setLoadingKeys] = useState(true);
+
+  useEffect(() => {
+    fetch(
+      "https://us-central1-ai-resume-4ef19.cloudfunctions.net/getContactKeys"
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        setApiKeys(data);
+        setLoadingKeys(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching API keys", error);
+        setLoadingKeys(false);
+      });
+  }, []);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (!recaptchaValue) {
+      console.log("ReCaptcha verification failed");
+      return;
+    }
+
+    if (!apiKeys) {
+      console.error("API keys not loaded yet.");
+      return;
+    }
+    const { EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, EMAILJS_PUBLIC_KEY } =
+      apiKeys;
+
+    const templateParams = {
+      from_name: name,
+      message: message,
+      "g-recaptcha-response": recaptchaValue,
+    };
+
+    emailjs
+      .send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        templateParams,
+        EMAILJS_PUBLIC_KEY
+      )
+      .then((response) => {
+        console.log("Message submitted", response);
+        setName("");
+        setMessage("");
+        setRecaptchaValue(null);
+        onClose();
+      })
+      .catch((error) => {
+        console.error("Error sending message", error);
+      });
+  };
 
   if (!isOpen) return null;
 
@@ -22,7 +82,7 @@ function Contact({ isOpen, onClose }) {
           below.
         </p>
         {/* Contact Form */}
-        <form className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4">
           <input
             type="text"
             placeholder="Your Name"
@@ -39,9 +99,20 @@ function Contact({ isOpen, onClose }) {
             className="w-full p-3 rounded bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
           ></textarea>
+
+          {!loadingKeys && apiKeys?.RECAPTCHA_SITE_KEY ? (
+            <ReCAPTCHA
+              sitekey={apiKeys.RECAPTCHA_SITE_KEY}
+              onChange={(value) => setRecaptchaValue(value)}
+            />
+          ) : (
+            <p className="text-gray-400 text-sm">loading reCAPTCHA...</p>
+          )}
+
           <button
             type="submit"
             className="w-full p-3 bg-blue-600 hover:bg-blue-500 transition rounded text-white font-semibold"
+            disabled={loadingKeys}
           >
             Send Message
           </button>
