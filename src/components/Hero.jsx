@@ -1,10 +1,11 @@
 import React from "react";
 import LogoBlack from "../assets/logo-white-transparent.png";
 import { motion } from "framer-motion";
+import bg1 from "../assets/bg-1.jpg";
 
 function Hero() {
   return (
-    <div>
+    <div style={{ backgroundImage: `url(${bg1})` }}>
       <motion.div
         initial={{ opacity: 0, x: 75 }}
         animate={{ opacity: 1, x: 0 }}
