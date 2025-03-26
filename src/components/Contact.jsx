@@ -93,7 +93,7 @@ function Contact({ isOpen, onClose }) {
           />
           <textarea
             placeholder="Your Message"
-            value={""}
+            value={message}
             onChange={(e) => setMessage(e.target.value)}
             rows="4"
             className="w-full p-3 rounded bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"

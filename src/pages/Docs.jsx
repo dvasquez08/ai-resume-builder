@@ -7,25 +7,25 @@ function Docs() {
     <>
       <Nav />
       <div>
-        <h1 className="text-sky-black my-2 font-sans font-light text-2xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-7xl text-center">
+        <h1 className="text-sky-400 my-2 font-sans font-light text-2xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-7xl text-center">
           Documentation
         </h1>
       </div>
       <div>
-        <h2 className="text-black mt-18 mb-6 font-sans font-light text-4xl text-left px-6">
+        <h2 className="text-sky-400 mt-18 mb-6 font-sans font-light text-4xl text-left px-6">
           Overview
         </h2>
-        <p className="text-black px-6">
+        <p className="text-white px-6">
           This app is an AI-powered resume assistant designed to help users
           create professional resumes efficiently. It leverages Groq's Llama 3
           language model to provide instant feedback, generate content, and
           structure resumes interactively, ensuring a seamless experience.
         </p>
 
-        <h2 className="text-black mt-16 mb-6 font-sans font-light text-4xl text-left px-6">
+        <h2 className="text-sky-400 mt-16 mb-6 font-sans font-light text-4xl text-left px-6">
           Key Features
         </h2>
-        <ul className="list-disc list-inside space-y-4 px-6 text-black">
+        <ul className="list-disc list-inside space-y-4 px-6 text-white">
           <li>
             <span className="font-bold">AI-Powered Resume Generation:</span>{" "}
             Conversational AI guides users through resume creation.
@@ -48,19 +48,19 @@ function Docs() {
           </li>
         </ul>
 
-        <h2 className="text-black mt-16 mb-6 font-sans font-light text-4xl text-left px-6">
+        <h2 className="text-sky-400 mt-16 mb-6 font-sans font-light text-4xl text-left px-6">
           Privacy
         </h2>
-        <p className="text-black px-6">
+        <p className="text-white px-6">
           All chat history is stored locally on your device. No data is uploaded
           or saved on external servers, ensuring complete privacy. Users can
           delete their chat history anytime.
         </p>
 
-        <h2 className="text-black mt-16 mb-6 font-sans font-light text-4xl text-left px-6">
+        <h2 className="text-sky-400 mt-16 mb-6 font-sans font-light text-4xl text-left px-6">
           How It Works
         </h2>
-        <ul className="list-disc list-inside space-y-4 mx-6 text-black">
+        <ul className="list-disc list-inside space-y-4 mx-6 text-white">
           <li>
             <span className="font-bold">Instant Feedback:</span> Groq’s API
             ensures real-time AI responses.
@@ -79,10 +79,10 @@ function Docs() {
           </li>
         </ul>
 
-        <h2 className="text-black mt-16 mb-6 font-sans font-light text-4xl text-left px-6">
+        <h2 className="text-sky-400 mt-16 mb-6 font-sans font-light text-4xl text-left px-6">
           Technical Details
         </h2>
-        <ul className="list-disc list-inside space-y-4 mx-6 text-black">
+        <ul className="list-disc list-inside space-y-4 mx-6 text-white">
           <li>
             <span className="font-bold">LLM Integration:</span> Uses Groq’s
             Llama 3 for AI-driven responses.
@@ -101,10 +101,10 @@ function Docs() {
           </li>
         </ul>
 
-        <h2 className="text-black mt-16 mb-6 font-sans font-light text-4xl text-left px-6">
+        <h2 className="text-sky-400 mt-16 mb-6 font-sans font-light text-4xl text-left px-6">
           Future Plans
         </h2>
-        <p className="text-black px-6">
+        <p className="text-white px-6">
           Enhancements include cover letter generation, improved AI guidance,
           and more customization features to streamline job applications
           further.
