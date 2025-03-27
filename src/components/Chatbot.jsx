@@ -84,7 +84,7 @@ function ChatBot() {
     {
       key: "workExperience",
       question:
-        "Tell me about a job you've had (title, company, years, responsibilities).",
+        "Tell me about your work experience (title, company, years, responsibilities).",
     },
   ];
 
