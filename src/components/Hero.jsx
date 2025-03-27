@@ -13,7 +13,7 @@ function Hero() {
       >
         <div className="flex flex-col md:flex-row items-center justify-center gap-6">
           <img src={Logo} />
-          <h1 className=" text-white my-2 font-sans font-light text-2xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-7xl text-left bg-black/50">
+          <h1 className=" text-white my-2 font-sans font-light text-2xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-7xl text-center sm:text-left bg-black/50">
             Your Personal AI Assistant for Building Your Resume
           </h1>
         </div>
