@@ -4,7 +4,10 @@ import bg1 from "../assets/bg-1.jpg";
 
 function Hero() {
   return (
-    <div style={{ backgroundImage: `url(${bg1})` }}>
+    <div
+      className="bg-cover bg-center bg-no-repeat"
+      style={{ backgroundImage: `url(${bg1})` }}
+    >
       <motion.div
         initial={{ opacity: 0, x: 75 }}
         animate={{ opacity: 1, x: 0 }}
