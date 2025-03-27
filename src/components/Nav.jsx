@@ -15,7 +15,7 @@ function Nav() {
 
   return (
     <>
-      <nav className="rounded-lg shadow m-4 border-gray-200 bg-sky-900 sticky top-0 z-50">
+      <nav className="rounded-lg shadow m-4 border-gray-200 bg-sky-900 sticky top-0 z-10">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           {/* Menu Logo Section */}
           <Link

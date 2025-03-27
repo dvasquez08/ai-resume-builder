@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import emailjs from "@emailjs/browser";
 import ReCAPTCHA from "react-google-recaptcha";
+import PropTypes from "prop-types";
 
 function Contact({ isOpen, onClose }) {
   const [name, setName] = useState("");
@@ -67,7 +68,7 @@ function Contact({ isOpen, onClose }) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-10 flex items-center justify-center bg-black/50 backdrop-blur-md">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-md">
       <div className="bg-gray-800 text-white p-6 rounded-lg shadow-xl w-96 animate-fade-in">
         {/* Close Form Button */}
         <button
@@ -121,5 +122,10 @@ function Contact({ isOpen, onClose }) {
     </div>
   );
 }
+
+Contact.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+};
 
 export default Contact;

@@ -1,4 +1,3 @@
-import React from "react";
 import { motion } from "framer-motion";
 
 function StepCards() {
@@ -11,17 +10,17 @@ function StepCards() {
 
   return (
     <div className="flex flex-col sm:flex-row items-center justify-center gap-6 my-10">
-      {steps.map((step, index) => (
+      {steps.map((step) => (
         <motion.div
           key={step.id}
-          className="bg-gray-700 shadow-lg rounded-xl p-6 w-72 text-center border border-gray-200"
+          className="bg-white shadow-lg rounded-xl p-6 w-72 text-center border border-gray-200"
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: index * 0.2 }}
+          transition={{ duration: 0.5 }}
           whileHover={{ scale: 1.05 }}
         >
-          <h3 className="text-xl font-semibold text-white">{step.title}</h3>
-          <p className="text-white mt-2">{step.text}</p>
+          <h3 className="text-xl font-semibold text-sky-600">{step.title}</h3>
+          <p className="text-gray-700 mt-2">{step.text}</p>
         </motion.div>
       ))}
     </div>

@@ -1,4 +1,3 @@
-import React from "react";
 import { motion } from "framer-motion";
 import StepCards from "./StepCards";
 import Chatbot from "./Chatbot";
@@ -14,6 +13,9 @@ function HomeContent() {
         transition={{ duratioin: 2, ease: "easeOut" }}
         className="flex flex-col justify-center px-8"
       >
+        <h2 className="text-sky-400 my-6 font-sans font-light text-2xl sm:text-5xl md:text-5xl lg:text-5xl xl:text-5xl text-center">
+          Smarter Resumes, Better Opportunities
+        </h2>
         <p className="text-white mb-4 text-center">
           Welcome! This app is designed to help you build a progrssional resume
           to improve your chances of landin your dream job.
@@ -40,11 +42,11 @@ function HomeContent() {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-6 my-10">
           {/* How it works */}
 
-          <div className="max-w-lg">
-            <h2 className="text-white mt-16 font-sans text-xl font-light sm:text-2xl md:text-3xl lg:text-4xl xl:text-4xl text-center">
+          <div className="max-w-lg bg-zinc-300 p-4 rounded-lg shadow-[0_0_20px_#38bdf8] m-1 border-gray-200">
+            <h2 className="text-zinc-600 font-sans text-xl font-light sm:text-2xl md:text-3xl lg:text-4xl xl:text-4xl text-center">
               How It Works
             </h2>
-            <ol className="list-decimal list-inside space-y-4 text-white px-6 mt-4">
+            <ol className="list-decimal list-inside space-y-4 text-zinc-600 px-6 mt-4">
               <li>
                 Answer simple questions about your experience, skills, and job
                 preferences.
@@ -54,21 +56,17 @@ function HomeContent() {
                 future, cover letters.
               </li>
               <li>Review, edit, and finalize your resume instantly</li>
-              <li>Download or copy your resume when you're satisfied</li>
+              <li>Download or copy your resume when you`re satisfied</li>
             </ol>
           </div>
 
           {/* Benefits */}
 
-          <div>
-            <h2 className="text-white mt-16 font-sans font-light text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-4xl text-center">
+          <div className="bg-zinc-300 max-w-lg p-1 rounded-lg shadow-[0_0_20px_#38bdf8] m-1 border-gray-200">
+            <h2 className="text-zinc-600 font-sans font-light text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-4xl text-center">
               Benefits
             </h2>
-            <ul className="list-disc list-inside space-y-4 text-white px-6 mt-4">
-              <li>
-                <strong>AI powered suggestions:</strong> Get real-time
-                resume-building tips.
-              </li>
+            <ul className="list-disc list-inside space-y-4 text-zinc-600 px-6 mt-4">
               <li>
                 <strong>Fast and Easy:</strong>Generate a professional resume in
                 minutes.
@@ -99,7 +97,7 @@ function HomeContent() {
         </p>
         <ul className="list-disc list-inside space-y-4 text-white mt-4 mx-6">
           <li>
-            <strong>More Resume Templaces</strong>- Choose from a variety of
+            <strong>More Resume Templates</strong>- Choose from a variety of
             styles to fit your industry.
           </li>
           <li>
@@ -111,11 +109,13 @@ function HomeContent() {
       </div>
 
       {/* Chatbot Section */}
-      <h1 className="text-sky-400 my-8 font-sans font-light text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-4xl text-center px-6">
-        Whether you're curious about AI and it's capabilities, or you need help
+      <h1 className="text-sky-400 my-16 font-sans font-light text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-4xl text-center px-6">
+        Whether you`re curious about AI and it`s capabilities, or you need help
         building your resume, give the app a try below.
       </h1>
-      <StepCards />
+      <div className="my-4">
+        <StepCards />
+      </div>
       <Chatbot />
     </>
   );

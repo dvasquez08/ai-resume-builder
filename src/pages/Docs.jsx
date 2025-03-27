@@ -1,4 +1,3 @@
-import React from "react";
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
 
@@ -17,7 +16,7 @@ function Docs() {
         </h2>
         <p className="text-white px-6">
           This app is an AI-powered resume assistant designed to help users
-          create professional resumes efficiently. It leverages Groq's Llama 3
+          create professional resumes efficiently. It leverages Groq`s Llama 3
           language model to provide instant feedback, generate content, and
           structure resumes interactively, ensuring a seamless experience.
         </p>
