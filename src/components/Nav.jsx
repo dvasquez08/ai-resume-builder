@@ -24,7 +24,7 @@ function Nav() {
           >
             <img src={Logo} className="h-8" alt="App Logo" />
             <span className="self-center text-2xl whitespace-nowrap text-white">
-              AI Resume Builder
+              AI Resume
             </span>
           </Link>
           {/* Desktop Menu */}
