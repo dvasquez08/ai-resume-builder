@@ -1,8 +1,14 @@
+import { useRef } from "react";
 import { motion } from "framer-motion";
 import StepCards from "./StepCards";
 import Chatbot from "./Chatbot";
 
 function HomeContent() {
+  const chatbotSectionRef = useRef(null);
+  const scrollToChatbotSection = () => {
+    chatbotSectionRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <>
       {/* Intro Section */}
@@ -10,7 +16,7 @@ function HomeContent() {
       <motion.div
         initial={{ opacity: 0, y: 75 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duratioin: 2, ease: "easeOut" }}
+        transition={{ duration: 2, ease: "easeOut" }}
         className="flex flex-col justify-center px-8"
       >
         <h2 className="text-sky-400 my-6 font-sans font-light text-2xl sm:text-5xl md:text-5xl lg:text-5xl xl:text-5xl text-center">
@@ -28,7 +34,10 @@ function HomeContent() {
         </p>
       </motion.div>
       <div className="flex flex-col items items-center">
-        <button className="text-white bg-blue-700 hover:bg-blue-900 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg p-3 mb-6">
+        <button
+          onClick={scrollToChatbotSection}
+          className="text-white bg-blue-700 hover:bg-blue-900 focus:ring-4 transition-bg duration-300 focus:ring-blue-300 font-medium rounded-lg p-3 mb-6"
+        >
           Try the App!
         </button>
       </div>
@@ -42,7 +51,7 @@ function HomeContent() {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-6 my-10">
           {/* How it works */}
 
-          <div className="max-w-lg bg-zinc-300 p-4 rounded-lg shadow-[0_0_20px_#38bdf8] m-1 border-gray-200">
+          <div className="max-w-lg bg-zinc-300 p-4 rounded-lg shadow-[0_0_20px_#38bdf8] m-1 hover:shadow-[0_0_20px_#FFFFFF] transition-shadow duration-300 border-gray-200">
             <h2 className="text-zinc-600 font-sans text-xl font-light sm:text-2xl md:text-3xl lg:text-4xl xl:text-4xl text-center">
               How It Works
             </h2>
@@ -62,7 +71,7 @@ function HomeContent() {
 
           {/* Benefits */}
 
-          <div className="bg-zinc-300 max-w-lg p-1 rounded-lg shadow-[0_0_20px_#38bdf8] m-1 border-gray-200">
+          <div className="bg-zinc-300 max-w-lg p-1 rounded-lg shadow-[0_0_20px_#38bdf8] hover:shadow-[0_0_20px_#FFFFFF] transition-shadow duration-300 m-1 border-gray-200">
             <h2 className="text-zinc-600 font-sans font-light text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-4xl text-center">
               Benefits
             </h2>
@@ -109,7 +118,10 @@ function HomeContent() {
       </div>
 
       {/* Chatbot Section */}
-      <h1 className="text-sky-400 my-16 font-sans font-light text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-4xl text-center px-6">
+      <h1
+        ref={chatbotSectionRef}
+        className="text-sky-400 my-16 font-sans font-light text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-4xl text-center px-6"
+      >
         Whether you`re curious about AI and it`s capabilities, or you need help
         building your resume, give the app a try below.
       </h1>
