@@ -1,9 +1,9 @@
-import { useEffect, useState, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import jsPDF from "jspdf";
 import Groq from "groq-sdk";
 
-function Chatbot() {
+function ChatBot() {
   const [messages, setMessages] = useState(() => {
     return (
       JSON.parse(localStorage.getItem("chatHistory")) || [
@@ -14,6 +14,7 @@ function Chatbot() {
       ]
     );
   });
+
   const [resumeData, setResumeData] = useState(
     () => JSON.parse(localStorage.getItem("resumeData")) || {}
   );
@@ -21,27 +22,9 @@ function Chatbot() {
   const chatWindowRef = useRef(null);
   const [finalResume, setFinalResume] = useState(null);
   const [isFinalized, setIsFinalized] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [groqKey, setGroqKey] = useState(null);
   const [groqClient, setGroqClient] = useState(null);
-
-  const questions = [
-    { key: "name", question: "What is your full name?" },
-    { key: "address", question: "What is your address?" },
-    { key: "phone", question: "What is your phone number?" },
-    { key: "email", question: "What is your email address?" },
-    { key: "careerObjective", question: "What is your career objective?" },
-    {
-      key: "education",
-      question:
-        "Tell me about your education (certification, institution, year)",
-    },
-    {
-      key: "workExperience",
-      question:
-        "Tell me about your work history (job title, company, years worked, responsibilities)",
-    },
-  ];
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchApiKeys = async () => {
@@ -88,6 +71,23 @@ function Chatbot() {
     }
   };
 
+  const questions = [
+    { key: "name", question: "What is your full name?" },
+    { key: "address", question: "What is your address?" },
+    { key: "phone", question: "What is your phone number?" },
+    { key: "email", question: "What is your email address?" },
+    { key: "careerObjective", question: "What is your career objective?" },
+    {
+      key: "education",
+      question: "Tell me about your education (degree, institution, year).",
+    },
+    {
+      key: "workExperience",
+      question:
+        "Tell me about a job you've had (title, company, years, responsibilities).",
+    },
+  ];
+
   const sendMessage = async () => {
     if (!input.trim()) return;
 
@@ -100,6 +100,7 @@ function Chatbot() {
       setResumeData(updatedData);
       localStorage.setItem("resumeData", JSON.stringify(updatedData));
     }
+
     const nextQuestion = questions.find((q) => !updatedData[q.key]);
 
     setMessages((prev) => [
@@ -110,6 +111,7 @@ function Chatbot() {
         sender: "bot",
       },
     ]);
+
     setInput("");
 
     if (!nextQuestion) {
@@ -119,7 +121,7 @@ function Chatbot() {
 
   const finalizeResume = async (data) => {
     if (!groqClient) {
-      console.error("Groq client is not initialized");
+      console.error("Groq client is not initialized.");
       return;
     }
 
@@ -266,6 +268,7 @@ function Chatbot() {
     if (messages.length > 1) {
       localStorage.setItem("chatHistory", JSON.stringify(messages));
     }
+
     if (chatWindowRef.current) {
       chatWindowRef.current.scrollTop = chatWindowRef.current.scrollHeight;
     }
@@ -308,7 +311,7 @@ function Chatbot() {
       {!isFinalized && (
         <div className="relative flex gap-2 mt-4">
           <textarea
-            className="flex-1 p-3 pr-10 border rounded bg-gray-900 text-white z-0"
+            className="flex-1 p-3 pr-10 border rounded bg-gray-900 text-white z-10"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && sendMessage()}
@@ -329,24 +332,24 @@ function Chatbot() {
             onClick={copyToClipboard}
             className="px-4 py-2 bg-green-600 text-white hover:bg-green-500 transition rounded"
           >
-            Copy to Cllipboard
+            Copy to Clipboard
           </button>
           <button
             onClick={downloadPDF}
             className="px-4 py-2 bg-red-600 text-white hover:bg-red-500 transition rounded"
           >
-            Download to PDF
-          </button>
-          <button
-            onClick={resetChat}
-            className="px-4 py-2 bg-gray-500 text-white hover:bg-gray-400 transition rounded mt-2"
-          >
-            Reset Chat
+            Download PDF
           </button>
         </div>
       )}
+      <button
+        onClick={resetChat}
+        className="px-4 py-2 bg-gray-500 text-white hover:bg-gray-400 transition rounded mt-2"
+      >
+        Start Over
+      </button>
     </div>
   );
 }
 
-export default Chatbot;
+export default ChatBot;
