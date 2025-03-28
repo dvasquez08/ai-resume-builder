@@ -81,6 +81,8 @@ function Nav() {
             className="md:hidden text-gray-400 hover:bg-gray-700 p-2 rounded"
             onClick={() => setMobileMenuOpen(!isMobileMenuOpen)}
           >
+            {/* Determining how the menu button will look for the mobile view */}
+
             <svg
               className="w-6 h-6"
               viewBox="0 0 24 24"

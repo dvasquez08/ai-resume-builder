@@ -11,6 +11,8 @@ function Docs() {
         </h1>
       </div>
       <div>
+        {/* The general overview about the app */}
+
         <h2 className="text-sky-400 mt-18 mb-6 font-sans font-light text-4xl text-left px-6">
           Overview
         </h2>
@@ -20,6 +22,8 @@ function Docs() {
           language model to provide instant feedback, generate content, and
           structure resumes interactively, ensuring a seamless experience.
         </p>
+
+        {/* Going over the key features */}
 
         <h2 className="text-sky-400 mt-16 mb-6 font-sans font-light text-4xl text-left px-6">
           Key Features
@@ -47,6 +51,8 @@ function Docs() {
           </li>
         </ul>
 
+        {/* Privacy section */}
+
         <h2 className="text-sky-400 mt-16 mb-6 font-sans font-light text-4xl text-left px-6">
           Privacy
         </h2>
@@ -55,6 +61,8 @@ function Docs() {
           or saved on external servers, ensuring complete privacy. Users can
           delete their chat history anytime.
         </p>
+
+        {/* Explaining how it works */}
 
         <h2 className="text-sky-400 mt-16 mb-6 font-sans font-light text-4xl text-left px-6">
           How It Works
@@ -78,6 +86,8 @@ function Docs() {
           </li>
         </ul>
 
+        {/* Going through the technical details */}
+
         <h2 className="text-sky-400 mt-16 mb-6 font-sans font-light text-4xl text-left px-6">
           Technical Details
         </h2>
@@ -99,6 +109,8 @@ function Docs() {
             full control over their data.
           </li>
         </ul>
+
+        {/* Going over what is next for the app and future goals */}
 
         <h2 className="text-sky-400 mt-16 mb-6 font-sans font-light text-4xl text-left px-6">
           Future Plans

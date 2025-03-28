@@ -1,6 +1,8 @@
 import { motion } from "framer-motion";
 
 function StepCards() {
+  // Defining each step that will appear above the chatbot, explaining how it works
+
   const steps = [
     { id: 1, title: "Step 1", text: "Start off with your information" },
     { id: 2, title: "Step 2", text: "Add your skills and experience" },
@@ -9,6 +11,8 @@ function StepCards() {
   ];
 
   return (
+    // This will set the styling for all the steps
+
     <div className="flex flex-col sm:flex-row items-center justify-center gap-6 my-10">
       {steps.map((step) => (
         <motion.div

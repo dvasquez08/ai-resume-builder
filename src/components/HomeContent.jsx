@@ -4,6 +4,8 @@ import StepCards from "./StepCards";
 import Chatbot from "./Chatbot";
 
 function HomeContent() {
+  // Adding functionality to the button which will scroll the user smoothly to the chatbot section
+
   const chatbotSectionRef = useRef(null);
   const scrollToChatbotSection = () => {
     chatbotSectionRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -34,6 +36,8 @@ function HomeContent() {
         </p>
       </motion.div>
       <div className="flex flex-col items items-center">
+        {/* The button that will scroll the user down to the app at the botoom of the page. */}
+
         <button
           onClick={scrollToChatbotSection}
           className="text-white bg-blue-700 hover:bg-blue-900 focus:ring-4 transition-bg duration-300 focus:ring-blue-300 font-medium rounded-lg p-3 mb-6"
@@ -119,7 +123,7 @@ function HomeContent() {
 
       {/* Chatbot Section */}
       <h1
-        ref={chatbotSectionRef}
+        ref={chatbotSectionRef} // Where the scroll function knows where to go
         className="text-sky-400 my-16 font-sans font-light text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-4xl text-center px-6"
       >
         Whether you`re curious about AI and it`s capabilities, or you need help
