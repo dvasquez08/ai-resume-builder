@@ -3,6 +3,9 @@ import { motion } from "framer-motion";
 import jsPDF from "jspdf";
 import Groq from "groq-sdk";
 
+// Starts oof the chatbot's starting point with the default start message
+// continues with the conversation if there's chat history
+
 function ChatBot() {
   const [messages, setMessages] = useState(() => {
     return (
@@ -27,6 +30,8 @@ function ChatBot() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    // Fetches the API keys from Groq, allowing the app to use the LLM
+
     const fetchApiKeys = async () => {
       try {
         const response = await fetch(
@@ -54,6 +59,9 @@ function ChatBot() {
     }
   }, [groqKey]);
 
+  // Function that clears the data that is cached so far locally on the browser
+  // Starts the chat over again with the same default message as the beginning
+
   const resetChat = () => {
     if (window.confirm("Are you sure you want to start over?")) {
       setTimeout(() => {
@@ -71,6 +79,8 @@ function ChatBot() {
     }
   };
 
+  // The set of pre-set questions that the user will be asked
+
   const questions = [
     { key: "name", question: "What is your full name?" },
     { key: "address", question: "What is your address?" },
@@ -87,6 +97,10 @@ function ChatBot() {
         "Tell me about your work experience (title, company, years, responsibilities).",
     },
   ];
+
+  // This handles the user's responses , going though the preset questions
+  // then runs the finalizeResume function after all the questions are done
+  // which sends the responses in the prompt
 
   const sendMessage = async () => {
     if (!input.trim()) return;
@@ -118,6 +132,10 @@ function ChatBot() {
       await finalizeResume(updatedData);
     }
   };
+
+  // This takes all the responses from the user, then uses it in one prompt to the LLM
+  // It takes the users data and is prompted to generate a resume, telling Llama what
+  // to do with this data
 
   const finalizeResume = async (data) => {
     if (!groqClient) {
@@ -159,6 +177,9 @@ function ChatBot() {
     setLoading(false);
   };
 
+  // The function that allows the user to copy their formatted reesume to their clipboard
+  // Allowing them to paste it to MS Word or Google Docs
+
   const copyToClipboard = () => {
     if (!finalResume) return;
 
@@ -173,6 +194,9 @@ function ChatBot() {
       .writeText(cleanedResume)
       .then(() => alert("Resume copied to clipboard!"));
   };
+
+  // The function that allows the user to download a PDF version of their resume. This formats
+  // their resume to make it look professional, though more tweeking is needed
 
   const downloadPDF = () => {
     if (!finalResume || !resumeData) return;
@@ -190,18 +214,22 @@ function ChatBot() {
     let y = 20;
     let contactInfo = "";
 
+    // This part removes unncecessary parts of the formatting such as plus signs that were not needed
+
     let cleanedResume = finalResume
       .replace(/\*\*.*?\*\*\n\*\*Contact Information:\*\*\n*/, "") // Remove redundant name & heading
-      .replace(/\*\*(.*?)\*\*/g, "$1") // Remove bold markdown
-      .replace(/\[(.*?)\]\((.*?)\)/g, "$1") // Fix email formatting
+      .replace(/\*\*(.*?)\*\*/g, "$1") // Removes bold markdown
+      .replace(/\[(.*?)\]\((.*?)\)/g, "$1") // Fixes email formatting
       .replace(/^\*\s+/gm, "") // Remove leading "* "
       .replace(/^\+\s+/gm, ""); // Remove leading "+ "
 
-    // **Split Resume Content & Notes**
     const [resumeContent, notes] = cleanedResume.split(
       "I hope this meets your requirements!",
       2
     );
+
+    // This part was added to remove duplicate names that kept appearing.
+    // This also formats the contact information at the top
 
     const lines = resumeContent.split("\n").filter((line, index) => {
       if (index !== 0 && line.trim() === userName) return false;
@@ -216,26 +244,24 @@ function ChatBot() {
       return true;
     });
 
-    // **Fix: Centered Contact Info**
+    // Takes all the info and formats it for the PDF download
+
     const contactLines = contactInfo.trim().split("\n");
     contactLines.forEach((line) => {
       pdf.text(line, 105, y, { align: "center" });
       y += 7;
     });
 
-    y += 10; // Move down after contact info
+    y += 10;
 
-    // **Write Resume Content First**
     lines.forEach((line) => {
       if (y > 280) {
-        pdf.addPage(); // Start a new page if content exceeds page height
-        y = 20;
+        pdf.addPage();
       }
       pdf.text(line, 10, y);
       y += 7;
     });
 
-    // **Write Notes on a New Page**
     if (notes && notes.trim()) {
       pdf.addPage();
       y = 20;
@@ -265,9 +291,13 @@ function ChatBot() {
   };
 
   useEffect(() => {
+    // Saves the chat responses to local storage
+
     if (messages.length > 1) {
       localStorage.setItem("chatHistory", JSON.stringify(messages));
     }
+    // Takes the user to the bottom of the chat. This was added because everytime a resposne was added
+    // you had to scroll down each time which can be annoying to the user
 
     if (chatWindowRef.current) {
       chatWindowRef.current.scrollTop = chatWindowRef.current.scrollHeight;
@@ -280,6 +310,8 @@ function ChatBot() {
         className="h-96 overflow-y-auto p-4 border-b border-white chat-window rounded-lg bg-gray-900 shadow-md"
         ref={chatWindowRef}
       >
+        {/* Handles the styling and the animation of the text bubbles */}
+
         {messages.map((msg, index) => (
           <motion.div
             key={index}
@@ -308,6 +340,8 @@ function ChatBot() {
         )}
       </div>
 
+      {/* The chat functionality where the user interacts with the chatbot */}
+
       {!isFinalized && (
         <div className="relative flex gap-2 mt-4">
           <textarea
@@ -326,6 +360,9 @@ function ChatBot() {
         </div>
       )}
 
+      {/* After the bot if finished asking all the questions and the resume is ready, these two buttons will appear
+      the Copy to Clipboard button and the Download PDF button */}
+
       {isFinalized && (
         <div className="pt-2 md:flex justify-evenly">
           <button
@@ -334,6 +371,7 @@ function ChatBot() {
           >
             Copy to Clipboard
           </button>
+
           <button
             onClick={downloadPDF}
             className="px-4 py-2 bg-red-600 text-white hover:bg-red-500 transition rounded"
@@ -342,6 +380,10 @@ function ChatBot() {
           </button>
         </div>
       )}
+
+      {/* The Start Over button that calls  the resetChat function, cleaing the data collected so far and starts the process over again.
+      This button is visible the whole time.  */}
+
       <button
         onClick={resetChat}
         className="px-4 py-2 bg-gray-500 text-white hover:bg-gray-400 transition rounded mt-2"
