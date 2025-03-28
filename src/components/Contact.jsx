@@ -10,6 +10,8 @@ function Contact({ isOpen, onClose }) {
   const [apiKeys, setApiKeys] = useState(null);
   const [loadingKeys, setLoadingKeys] = useState(true);
 
+  // The keys are stored in Firebase and the app uses a Firebase function to access the ReCaptcha and EmailJS keys
+
   useEffect(() => {
     fetch(
       "https://us-central1-ai-resume-4ef19.cloudfunctions.net/getContactKeys"
@@ -24,6 +26,8 @@ function Contact({ isOpen, onClose }) {
         setLoadingKeys(false);
       });
   }, []);
+
+  // Processes the form submission using EmailJS and ReCAPTCHA v2
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -84,6 +88,8 @@ function Contact({ isOpen, onClose }) {
         </p>
         {/* Contact Form */}
         <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Where the user will put in their name */}
+
           <input
             type="text"
             placeholder="Your Name"
@@ -92,6 +98,9 @@ function Contact({ isOpen, onClose }) {
             className="w-full p-3 rounded bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
           />
+
+          {/* The textarea where the user will enter their message */}
+
           <textarea
             placeholder="Your Message"
             value={message}
@@ -100,6 +109,8 @@ function Contact({ isOpen, onClose }) {
             className="w-full p-3 rounded bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
           ></textarea>
+
+          {/* Activates ReCAPTCHA if the keys are available */}
 
           {!loadingKeys && apiKeys?.RECAPTCHA_SITE_KEY ? (
             <ReCAPTCHA
@@ -122,6 +133,8 @@ function Contact({ isOpen, onClose }) {
     </div>
   );
 }
+
+// Defining the proptypes for isOpen and onClose
 
 Contact.propTypes = {
   isOpen: PropTypes.bool.isRequired,
