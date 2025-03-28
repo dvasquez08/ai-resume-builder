@@ -42,6 +42,38 @@ Groq API with Llama3 as the model
 Firebase for hosting
 Firebase Functions for securely storing the API keys and fetching them when needed
 
+## Issues I Ran Into
+
+### LLM
+
+At first I was testing with Llama v3 locally on my computer using Ollama. This worked okay but it was terribly slow because...I'm using my own computer and I don't necessarily have the best GPU designed for running AI.
+
+The original idea was to see if I can host a Llama on a server and run it from there, then I discovered Groq and found out I can use their service with a variety of LLM models using their API.
+
+This was amazing and not only was Llama v3 available there as well, they had GPT4 and other models, but I stayed with Llama after testing with some responses and I felt its responses was a better fit, and seemed to understand what I wanted it to do better than others.
+
+I'm sure the others would have worked with some tweaking, but Llama was just my preferences and it seemed to respond better.
+
+### API Security
+
+I was having my API keys stored in a file in my project for developement, but when it came to deployment I knew this would not be a good idea as it would expose my Groq API key. I also had keys for ReCAPTCHA and EmailJS that I wanted to secure.
+
+I read about Firebase Functions, and since I was already hosting my app on Firebase Hosting, I figured this was a good step as it would seamlessly integrate with my project already using Firebase.
+
+Maybe it was a lack of experience, but this process drove me crazy as I could not get it to work. My app could not fetch the keys and it took a lot of adjustments to the index.js file where I had to specify the Secret, which is used by Google cloud to know what fetch using the Firebase Function I created.
+
+Do succesfully achieve this, I created the functions using Firebase CLI, then specified the secret in the index.js file and when I deployed the app to Firebase, I was asked what the keys were, I entered them, then it was able to successfully fetch the keys.
+
+### LLM Responses
+
+Little did I know that the LLM was not remembering the user's responses, and this is set by design. So, if you respond for question 1 and 2, you would then move onto question 3, but the LLM would have already forgotten what you said for questions 1 and 2, returning a resume that didn't make sense.
+
+This was solved by just using preset questions, then taking all the reponses that are cached locally on the browser to the LLM in a single prompt, then it would gernerate a resume using all the data the user provided.
+
+### Formatting
+
+This was also a huge headache. The app was doing a great job generating the resume after configuring the preset questions. However, the formatting was awful and looked terrible. It took a lot of playing around with the function that used the jsPDF package to generate a resume that formatted correclty. Most notable, the name. It would put the user's name twice at the top for some reason, then not break up the contact info in seperate lines like I wanted to. Made some adjustment using RegEx to get the text to appear the way I wanted to in the function to create the PDF.
+
 ## Current Goal
 
 The app successfully builds impressive looking resumes, but it isn't perfect. Work will need to be done to perfect the resume building process before moving on to the next goal.
