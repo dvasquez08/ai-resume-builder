@@ -11,6 +11,24 @@ One all the questions have been run through, the responses are used in a prompt 
 
 You can give the bot silly responses are just say 'I don't know what to put here, can you fill it in for me', and the bot will fix those and generate a response it decides is a good fit
 
+User is presented with the initial preset question to get started:
+
+![0](https://github.com/user-attachments/assets/5b13134b-7685-40b7-b455-ea8ab7a73b2d)
+
+User enters their response, they can tell the bot they don't know what to enter for a certain section:
+
+![1](https://github.com/user-attachments/assets/fbdc345a-c617-4933-ba92-7b94d4cd3e47)
+
+The bot will generate the resume, making it available to copy to the user's clipboard or to download a PDF copy
+
+Copy to Clipboard, pasted into Microsoft Word:
+
+![2](https://github.com/user-attachments/assets/958b2b79-c394-4dd2-8e3c-43891d2446ea)
+
+Downloaded PDF version:
+
+![3](https://github.com/user-attachments/assets/902fe1e4-5cf3-414b-8e6e-59eea2f89c51)
+
 ## Tech Stack
 
 Font End:
