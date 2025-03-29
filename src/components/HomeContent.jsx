@@ -26,7 +26,7 @@ function HomeContent() {
         </h2>
         <p className="text-white mb-4 text-center">
           Welcome! This app is designed to help you build a progrssional resume
-          to improve your chances of landin your dream job.
+          to improve your chances of landing your dream job.
         </p>
         <p className="text-white mb-4 text-center">
           While this app is still in development, feel free to try out the
